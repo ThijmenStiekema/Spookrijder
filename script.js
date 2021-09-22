@@ -5,12 +5,12 @@ function preload() {
 
 let auto;
 function preload() {
-  auto = loadImage('assets/auto.png');
+  auto = loadImage('assetsAuto.png');
 }
 
 function setup() {
   createCanvas(1280, 960)
-  auto = new Car(10,4,100,200,5,-2);
+  car = new Car(10,4,100,200,5,-2);
 }
 
 class Player{
@@ -44,5 +44,6 @@ class Car{
 function draw(){
   background('blue');
   image(road, 0, 0);
+  Car.draw();
 }
 
