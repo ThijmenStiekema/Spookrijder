@@ -1,4 +1,4 @@
-var road, auto, score, xcar, ycar, vxcar, vycar, s, score = 0;
+var road, auto, score, xcar, ycar, vxcar, vycar, s, score;
 
 class Player {
   constructor(x, y, vx, vy, autowidth, autoheight){
@@ -61,6 +61,8 @@ function setup() {
   car = new Car(3,0);
   cars.push(car);
   player = new Player(640, 750, 0, 0, 100, 75);
+  setInterval(10);
+  score = 1000;
 }
 
 function draw() {
@@ -70,7 +72,9 @@ function draw() {
   if (keyIsDown(ENTER)){gamestart=1};
   {
   image(road, 0, 0);
-  
+
+
+
   if(frameCount % 250 == 0){
      let newCar = new Car(random(0,4));
      cars.push(newCar);
@@ -79,12 +83,11 @@ function draw() {
   cars.forEach((c) => {
     c.draw();
   });
-  player.draw();
   }
-  s = s + 1;
-  if (s % 4 == 0){
-  score = score + 1
-    }
+
+  if(frameCount % 250 == 0){
+    score = score + 1000;
+  }
   textSize(30);
   fill('white')
   text('Score: ' + score, 0, 50);
