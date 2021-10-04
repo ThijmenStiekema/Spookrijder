@@ -1,4 +1,4 @@
-var road, auto, score, xcar, ycar, vxcar, vycar;
+var road, auto, score, xcar, ycar, vxcar, vycar, s, score = 0;
 
 class Player {
   constructor(x, y, vx, vy, autowidth, autoheight){
@@ -25,11 +25,11 @@ class Player {
 
 class Car {
   constructor(lane, speed){
-    this.x = 430 + lane * 75
+    this.x = 450 + lane * 90
     this.y = 0
     this.autowidth = 100
     this.autoheight = 75
-    this.vx = -0.3 + lane*0.15
+    this.vx = -0.5 + lane*0.23
     this.vy = 1
   }
   draw() {
@@ -37,9 +37,12 @@ class Car {
     image(auto, this.x, this.y, this.autowidth, this.autoheight);
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;
-    if (this.autowidth < 200){
+    if (this.autowidth < 180){
       this.autowidth = this.autowidth*1.0012;
       this.autoheight = this.autoheight*1.0012;
+      }
+      else{
+        this.autowidth = 180;
       }
   }
 }
@@ -68,7 +71,7 @@ function draw() {
   {
   image(road, 0, 0);
   
-  if(frameCount % 200 == 0){
+  if(frameCount % 250 == 0){
      let newCar = new Car(random(0,4));
      cars.push(newCar);
     console.log("nieuwe car!");
@@ -78,6 +81,13 @@ function draw() {
   });
   player.draw();
   }
+  s = s + 1;
+  if (s % 4 == 0){
+  score = score + 1
+    }
+  textSize(30);
+  fill('white')
+  text('Score: ' + score, 0, 50);
 }
 
 //  car = new Car(640, 0, 0, 1, 100, 75);
