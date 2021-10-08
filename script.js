@@ -48,13 +48,12 @@ class Car {
   }
 
   checkCollision(){    
-    if(player.y < this.y + this.autoheight && player.x > this.x){
+    if(player.y > this.y - 0.7*this.autoheight && player.y < this.y + 0.7*this.autoheight && player.x > this.x- 0.7*this.autowidth && player.x < this.x + 0.7*this.autowidth){
       console.log('HIT')
+      gamestate=2;
     }
   }
 }
-
-
 
 let fontItalic
 function preload() {
@@ -75,8 +74,15 @@ function setup() {
   score = 1000;
 }
 
+function gameOver(){
+  background(150);
+	textAlign(CENTER);
+	text('GAME OVER', 640, 550);
+  
+}
+
 function draw() {
-  if (keyIsDown(ENTER)) { gamestart = 1 };
+  //if (keyIsDown(ENTER)) { gamestart = 1 };
 
   if (gamestate == 0) {
     imageMode(CORNER);
@@ -89,6 +95,10 @@ function draw() {
     text("Press ENTER to start the game", 640, 550);
     if (keyIsDown(ENTER)) { gamestate = gamestate + 1 };
   }
+
+  //if (x =< 100 && x => 1000){
+  //gameOver();
+  //}
 
   if (gamestate == 1) {
     imageMode(CORNER);
@@ -115,5 +125,14 @@ function draw() {
     fill('white')
     text('Score: ' + score, 100, 50);
   }
+
+  if (gamestate==2){
+  gameOver();
+  if (keyIsDown(ENTER)) {
+    gamestate=0
+    }
+  }
 }
+
+
 //  car = new Car(640, 0, 0, 1, 100, 75);
