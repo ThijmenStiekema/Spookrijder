@@ -26,7 +26,7 @@ class Player {
 class Car {
   constructor(lane, speed) {
     this.x = 450 + lane * 90
-    this.y = 0;    
+    this.y = 0;
     this.autowidth = 100
     this.autoheight = 75
     this.vx = -0.5 + lane * 0.23
@@ -47,15 +47,14 @@ class Car {
     }
   }
 
-  checkCollision(){    
-    if(player.y > this.y - 0.7*this.autoheight && player.y < this.y + 0.7*this.autoheight && player.x > this.x- 0.7*this.autowidth && player.x < this.x + 0.7*this.autowidth){
+  checkCollision() {
+    if (player.y > this.y - 0.7 * this.autoheight && player.y < this.y + 0.7 * this.autoheight && player.x > this.x - 0.9 * this.autowidth && player.x < this.x + 0.9 * this.autowidth) {
       console.log('HIT')
-      gamestate=2;
+      gamestate = 2;
     }
   }
 }
 
-let fontItalic
 function preload() {
   road = loadImage('assets/road.png');
   auto = loadImage('assets/NieuwsteAuto2.png');
@@ -74,15 +73,22 @@ function setup() {
   score = 1000;
 }
 
-function gameOver(){
+function gameOver() {
   background(150);
-	textAlign(CENTER);
-	text('GAME OVER', 640, 550);
-  
+  textAlign(CENTER);
+  textSize(30);
+  text('GAME OVER', 640, 550);
+  textAlign(CENTER);
+  textSize(15); 
+  text('Press ENTER to restart', 640, 575)
+  if (keyIsDown(ENTER)) {
+    score=0
+    cars = [];
+    gamestate = 0;    
+  };
 }
 
 function draw() {
-  //if (keyIsDown(ENTER)) { gamestart = 1 };
 
   if (gamestate == 0) {
     imageMode(CORNER);
@@ -95,10 +101,6 @@ function draw() {
     text("Press ENTER to start the game", 640, 550);
     if (keyIsDown(ENTER)) { gamestate = gamestate + 1 };
   }
-
-  //if (x =< 100 && x => 1000){
-  //gameOver();
-  //}
 
   if (gamestate == 1) {
     imageMode(CORNER);
@@ -126,13 +128,8 @@ function draw() {
     text('Score: ' + score, 100, 50);
   }
 
-  if (gamestate==2){
-  gameOver();
-  if (keyIsDown(ENTER)) {
-    gamestate=0
-    }
+  if (gamestate == 2) {
+    gameOver();
   }
+  
 }
-
-
-//  car = new Car(640, 0, 0, 1, 100, 75);
