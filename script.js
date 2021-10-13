@@ -31,7 +31,7 @@ class Car {
     this.autowidth = 100
     this.autoheight = 75
     this.vx = -0.5 + lane * 0.23
-    this.vy = 1 * speed;
+    this.vy = 2;
     this.img = auto;
   }
   draw() {
@@ -78,6 +78,7 @@ function setup() {
   highscore = 0;
 }
 
+
 function gameOver() {
   if (score > highscore) {
     highscore = score;
@@ -91,7 +92,6 @@ function gameOver() {
   text('Score: ' + score + ' Highscore: ' + highscore, 640, 600);
   text('Press ENTER to restart', 640, 575);
   if (keyIsDown(ENTER)) {
-
     score = 0
     cars = [];
     gamestate = 0;
@@ -110,7 +110,7 @@ function draw() {
     textSize(20);
     text("Press ENTER to start the game", 640, 550);
     if (keyIsDown(ENTER)) { gamestate = gamestate + 1;
-    music.play(); };
+    music.loop(); };
   }
 
   if (gamestate == 1) {
@@ -118,9 +118,8 @@ function draw() {
     image(road, 0, 0, 1280, 960);
     image(road, 0, 0);
     
-
-    if (frameCount % 250 == 0) {
-      let newCar = new Car(random(0, 4), random(1, 2));
+    if (frameCount % 200 == 0) {
+      let newCar = new Car(random(0, 4));
       cars.push(newCar);
       console.log("nieuwe car!");
     }
