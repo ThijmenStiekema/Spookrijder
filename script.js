@@ -31,13 +31,13 @@ class Car {
     this.autowidth = 100
     this.autoheight = 75
     this.vx = -0.5 + lane * 0.23
-    this.vy = 1;
+    this.vy = 1 * speed;
     this.img = auto;
   }
   draw() {
     imageMode(CENTER);
     image(this.img, this.x, this.y, this.autowidth, this.autoheight);
-    
+
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;
     if (this.autowidth < 180) {
@@ -47,7 +47,7 @@ class Car {
     else {
       this.autowidth = 180;
     }
-    
+
   }
 
   checkCollision() {
@@ -63,7 +63,7 @@ function preload() {
   auto = loadImage('assets/NieuwsteAuto2.png');
   playerauto = loadImage('assets/PlayerAuto.png');
   startscherm = loadImage('assets/startschermgame.png');
-  //music = loadSound('assets/Free-Synthwave-Loop.zip')
+  music = loadSound('assets/Free-Synthwave-Loop.wav');
 }
 
 var cars = [];
@@ -75,26 +75,26 @@ function setup() {
   player = new Player(640, 750, 0, 0, 100, 75);
   setInterval(10);
   score = 1000;
-  highscore=0;
+  highscore = 0;
 }
 
 function gameOver() {
-  if (score > highscore){
-      highscore = score;
-    }
+  if (score > highscore) {
+    highscore = score;
+  }
   background(150);
   textAlign(CENTER);
   textSize(30);
   text('GAME OVER', 640, 550);
   textAlign(CENTER);
-  textSize(15); 
-  text('Score: '+ score + ' Highscore: '+ highscore, 640, 600);
+  textSize(15);
+  text('Score: ' + score + ' Highscore: ' + highscore, 640, 600);
   text('Press ENTER to restart', 640, 575);
   if (keyIsDown(ENTER)) {
-    
-    score=0
+
+    score = 0
     cars = [];
-    gamestate = 0;    
+    gamestate = 0;
   };
 }
 
@@ -109,16 +109,18 @@ function draw() {
     text("SPOOKRIJDER", 640, 500);
     textSize(20);
     text("Press ENTER to start the game", 640, 550);
-    if (keyIsDown(ENTER)) { gamestate = gamestate + 1 };
+    if (keyIsDown(ENTER)) { gamestate = gamestate + 1;
+    music.play(); };
   }
 
   if (gamestate == 1) {
     imageMode(CORNER);
     image(road, 0, 0, 1280, 960);
     image(road, 0, 0);
+    
 
     if (frameCount % 250 == 0) {
-      let newCar = new Car(random(0, 4));
+      let newCar = new Car(random(0, 4), random(1, 2));
       cars.push(newCar);
       console.log("nieuwe car!");
     }
@@ -140,6 +142,7 @@ function draw() {
 
   if (gamestate == 2) {
     gameOver();
+    music.stop();
   }
-  
+
 }
