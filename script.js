@@ -14,6 +14,7 @@ class Player {
     image(playerauto, this.x, this.y, 200, 150);
     this.autowidth = this.autowidth + this.vautowidth;
     this.autoheight = this.autoheight + this.vautoheight;
+    this.x = constrain(this.x, 150, 1150);
     if (keyIsDown(LEFT_ARROW)) {
       this.x -= 10;
     }
@@ -36,6 +37,7 @@ class Car {
   draw() {
     imageMode(CENTER);
     image(this.img, this.x, this.y, this.autowidth, this.autoheight);
+    
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;
     if (this.autowidth < 180) {
@@ -45,6 +47,7 @@ class Car {
     else {
       this.autowidth = 180;
     }
+    
   }
 
   checkCollision() {
@@ -71,17 +74,23 @@ function setup() {
   player = new Player(640, 750, 0, 0, 100, 75);
   setInterval(10);
   score = 1000;
+  highscore=0;
 }
 
 function gameOver() {
+  if (score > highscore){
+      score = highscore;
+    }
   background(150);
   textAlign(CENTER);
   textSize(30);
   text('GAME OVER', 640, 550);
   textAlign(CENTER);
   textSize(15); 
-  text('Press ENTER to restart', 640, 575)
+  text('Score: '+ score + ' Highscore: '+ highscore, 640, 600);
+  text('Press ENTER to restart', 640, 575);
   if (keyIsDown(ENTER)) {
+    
     score=0
     cars = [];
     gamestate = 0;    
