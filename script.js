@@ -63,6 +63,7 @@ function preload() {
   auto = loadImage('assets/NieuwsteAuto2.png');
   playerauto = loadImage('assets/PlayerAuto.png');
   startscherm = loadImage('assets/startschermgame.png');
+  //music = loadSound('assets/Free-Synthwave-Loop.zip')
 }
 
 var cars = [];
@@ -79,7 +80,7 @@ function setup() {
 
 function gameOver() {
   if (score > highscore){
-      score = highscore;
+      highscore = score;
     }
   background(150);
   textAlign(CENTER);
