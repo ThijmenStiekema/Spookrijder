@@ -77,7 +77,7 @@ function setup() {
   score = 0;
   highscore = 0;
   speed = 1.5
-  spawnspeed = 200
+  spawnspeed = 250
 }
 
 
@@ -97,7 +97,7 @@ function gameOver() {
     score = 0
     cars = [];
     speed = 1.5;
-    spawnspeed = 200
+    spawnspeed = 250
     gamestate = 0;
   };
 }
@@ -123,7 +123,6 @@ function draw() {
     imageMode(CORNER);
     image(road, 0, 0, 1280, 960);
     player.draw();
-
     if (spawnspeed>100){spawnspeed = spawnspeed - speed * 0.01}
     if (frameCount % round(spawnspeed) == 0) {
       speed = speed + 0.05
@@ -131,7 +130,7 @@ function draw() {
       cars.push(newCar);
       console.log("nieuwe car!");
     }
-
+      print(spawnspeed)
     cars.forEach((car) => {
       car.draw();
       car.checkCollision();
