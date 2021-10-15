@@ -28,10 +28,11 @@ class Car {
   constructor(lane, speed) {
     this.x = 450 + lane * 90
     this.y = 0;
-    this.autowidth = 100
-    this.autoheight = 75
-    this.vx = -0.5 + lane * 0.23
-    this.vy = 2;
+    this.autowidth = 80
+    this.autoheight = 60
+    this.vx = -0.5 + lane * 0.23 *0.6*speed
+    this.speed= speed;
+    this.vy = this.speed;
     this.img = auto;
   }
   draw() {
@@ -41,8 +42,8 @@ class Car {
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;
     if (this.autowidth < 180) {
-      this.autowidth = this.autowidth * 1.0012;
-      this.autoheight = this.autoheight * 1.0012;
+      this.autowidth = this.autowidth*1.0012*this.speed;
+      this.autoheight = this.autoheight*1.0010*this.speed*0.95;
     }
     else {
       this.autowidth = 180;
@@ -64,18 +65,19 @@ function preload() {
   playerauto = loadImage('assets/PlayerAuto.png');
   startscherm = loadImage('assets/startschermgame.png');
   music = loadSound('assets/Free-Synthwave-Loop.wav');
+  //road2 = loadImage('assets/SythwaveWeg (1).gif');
 }
 
 var cars = [];
 
 function setup() {
   createCanvas(1280, 960)
-  car = new Car(3, 0);
-  cars.push(car);
+
   player = new Player(640, 750, 0, 0, 100, 75);
   setInterval(10);
-  score = 1000;
+  score = 0;
   highscore = 0;
+  speed = 1.5
 }
 
 
@@ -95,6 +97,7 @@ function gameOver() {
     score = 0
     cars = [];
     gamestate = 0;
+    speed = 1.5
   };
 }
 
@@ -116,10 +119,10 @@ function draw() {
   if (gamestate == 1) {
     imageMode(CORNER);
     image(road, 0, 0, 1280, 960);
-    image(road, 0, 0);
     
-    if (frameCount % 200 == 0) {
-      let newCar = new Car(random(0, 4));
+    if (frameCount % 250 == 0) {
+      speed = speed+0.05
+      let newCar = new Car(random(0, 4), speed);
       cars.push(newCar);
       console.log("nieuwe car!");
     }
@@ -132,7 +135,7 @@ function draw() {
     player.draw();
 
     if (frameCount % 250 == 0) {
-      score = score + 1000;
+      score = score + 100;
     }
     textSize(30);
     fill('white')
