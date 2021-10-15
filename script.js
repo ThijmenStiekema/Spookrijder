@@ -28,25 +28,24 @@ class Car {
   constructor(lane, speed) {
     this.x = 450 + lane * 90
     this.y = 0;
-    this.autowidth = 80
-    this.autoheight = 60
-    this.vx = -0.5 + lane * 0.23 *0.6*speed
-    this.speed= speed;
+    this.autowidth = 100
+    this.autoheight = 75
+    this.speed = speed;
+    this.vx = -0.5 + lane * 0.125 * this.speed
     this.vy = this.speed;
     this.img = auto;
   }
   draw() {
     imageMode(CENTER);
     image(this.img, this.x, this.y, this.autowidth, this.autoheight);
-
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;
-    if (this.autowidth < 180) {
-      this.autowidth = this.autowidth*1.0012*this.speed;
-      this.autoheight = this.autoheight*1.0010*this.speed*0.95;
+    if (this.autowidth < 174) {
+      this.autowidth = this.autowidth * 1.0015;
+      this.autoheight = this.autoheight * 1.0015;
     }
     else {
-      this.autowidth = 180;
+      this.autowidth = 175;
     }
 
   }
@@ -78,6 +77,7 @@ function setup() {
   score = 0;
   highscore = 0;
   speed = 1.5
+  spawnspeed = 200
 }
 
 
@@ -96,8 +96,9 @@ function gameOver() {
   if (keyIsDown(ENTER)) {
     score = 0
     cars = [];
+    speed = 1.5;
+    spawnspeed = 200
     gamestate = 0;
-    speed = 1.5
   };
 }
 
@@ -112,17 +113,21 @@ function draw() {
     text("SPOOKRIJDER", 640, 500);
     textSize(20);
     text("Press ENTER to start the game", 640, 550);
-    if (keyIsDown(ENTER)) { gamestate = gamestate + 1;
-    music.loop(); };
+    if (keyIsDown(ENTER)) {
+      gamestate = gamestate + 1;
+      music.loop();
+    };
   }
 
   if (gamestate == 1) {
     imageMode(CORNER);
     image(road, 0, 0, 1280, 960);
-    
-    if (frameCount % 250 == 0) {
-      speed = speed+0.05
-      let newCar = new Car(random(0, 4), speed);
+    player.draw();
+
+    if (spawnspeed>100){spawnspeed = spawnspeed - speed * 0.01}
+    if (frameCount % round(spawnspeed) == 0) {
+      speed = speed + 0.05
+      let newCar = new Car(random(-0.2, 4), speed);
       cars.push(newCar);
       console.log("nieuwe car!");
     }
@@ -132,9 +137,7 @@ function draw() {
       car.checkCollision();
     });
 
-    player.draw();
-
-    if (frameCount % 250 == 0) {
+    if (frameCount % round(spawnspeed) == 0) {
       score = score + 100;
     }
     textSize(30);
@@ -146,5 +149,6 @@ function draw() {
     gameOver();
     music.stop();
   }
+
 
 }
